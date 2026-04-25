@@ -2,26 +2,26 @@ import pandas as pd
 
 
 def process_energy_data(input_path, output_path):
-    # Load raw data
     df = pd.read_csv(input_path)
 
     print("Original Data:")
     print(df)
 
-    # 🔹 Remove missing values
     df = df.dropna()
-
-    # 🔹 Remove duplicate rows
     df = df.drop_duplicates()
 
-    # 🔹 Ensure correct data types (optional but good practice)
-    df["Size"] = df["Size"].astype(float)
-    df["Energy_Usage"] = df["Energy_Usage"].astype(float)
+    numeric_columns = [
+        "Relative_Compactness",
+        "Surface_Area",
+        "Wall_Area",
+        "Roof_Area",
+        "Overall_Height",
+        "Heating_Load"
+    ]
 
-    # 🔹 Create new feature
-    df["Energy_per_Size"] = df["Energy_Usage"] / df["Size"]
+    for column in numeric_columns:
+        df[column] = df[column].astype(float)
 
-    # Save processed data
     df.to_csv(output_path, index=False)
 
     return df

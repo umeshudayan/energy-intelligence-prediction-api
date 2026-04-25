@@ -4,7 +4,6 @@ from pipeline.train_model import train_energy_model, predict_energy
 
 app = FastAPI()
 
-# Run pipeline + train model once when API starts
 input_file = "data/energy_data.csv"
 processed_file = "data/processed_data.csv"
 
@@ -18,6 +17,6 @@ def home():
 
 
 @app.get("/predict")
-def predict(size: float, year_built: int):
-    result = predict_energy(model, size, year_built)
-    return {"predicted_energy_usage": result}
+def predict(rc: float, sa: float, wa: float, ra: float, oh: float):
+    result = predict_energy(model, rc, sa, wa, ra, oh)
+    return {"predicted_heating_load": result}
