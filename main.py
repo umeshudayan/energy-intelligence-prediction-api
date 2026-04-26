@@ -12,7 +12,15 @@ process_energy_data(input_file, processed_file)
 model = train_energy_model(processed_file)
 
 # 🔮 Make prediction
-predicted_value = predict_energy(model, size=130, year_built=2010)
+predicted_value = predict_energy(
+    model,
+    0.98,      # Relative Compactness
+    514.5,     # Surface Area
+    294,       # Wall Area
+    110.25,    # Roof Area
+    7          # Overall Height
+)
+
 
 print(f"Predicted Energy Usage: {predicted_value}")
 
