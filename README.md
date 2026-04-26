@@ -1,75 +1,101 @@
 # Energy Intelligence Prediction API
 
-> Built a production-style machine learning system using a real-world energy dataset, delivering real-time predictions via a FastAPI-based API.
+> A cloud-deployed machine learning system that predicts building energy performance and provides actionable recommendations for energy efficiency and Net Zero goals.
+
+---
+
+## 🚀 Live API
+
+👉 https://YOUR-LINK.onrender.com/docs  
+
+Test the system using the interactive FastAPI documentation.
 
 ---
 
 ## 📌 Key Highlights
 
-- Built end-to-end ML pipeline using real-world energy dataset (768 samples)
-- Implemented data cleaning and feature engineering
-- Developed regression model to predict building heating load
-- Deployed model via FastAPI API for real-time predictions
+- Built an end-to-end ML pipeline using a real-world energy dataset (768 samples)
+- Implemented data cleaning and feature engineering using pandas
+- Compared multiple models and selected the best (Random Forest)
+- Designed a REST API using FastAPI for real-time predictions
+- Deployed the system to the cloud (Render)
 
 ---
 
 ## 🚀 Features
 
-- Data pipeline using pandas (cleaning & transformation)
-- Feature engineering using building characteristics
-- Machine learning model using Linear Regression
-- REST API using FastAPI for real-time predictions
+- Data preprocessing and transformation pipeline
+- Feature engineering based on building characteristics
+- Machine learning model for heating load prediction
+- Model comparison (Linear Regression vs Random Forest)
+- Production-style API with validation and structured responses
+- Business logic layer providing energy insights and recommendations
 
 ---
 
 ## 🧠 How It Works
 
 1. Load building energy dataset  
-2. Clean data (missing values, duplicates removed)  
+2. Clean data (remove missing values and duplicates)  
 3. Select key features:
    - Relative Compactness  
    - Surface Area  
    - Wall Area  
    - Roof Area  
    - Overall Height  
-4. Train regression model to predict Heating Load  
-5. Expose model via API endpoint  
+4. Train and evaluate multiple regression models  
+5. Select the best-performing model  
+6. Save the model (`model.pkl`)  
+7. Serve predictions through a FastAPI endpoint  
 
 ---
 
 ## 📸 API Demo
 
 ### 1. FastAPI Documentation
-![API Docs](https://github.com/user-attachments/assets/550f7c77-5f56-436f-bd00-6480628270fe)
+![API Docs](SCNSHOT/1.png)
 
 ### 2. Input Parameters
-![Input](https://github.com/user-attachments/assets/1dac0e82-01b3-466c-8e27-cbf9ca44c769)
+![Input](SCNSHOT/2.png)
 
 ### 3. Execution
-![Execution](https://github.com/user-attachments/assets/dd4762c1-2982-47cb-8f87-9b28723954ba)
+![Execution](SCNSHOT/3.png)
 
 ### 4. Prediction Output
-![Output](https://github.com/user-attachments/assets/973b120f-dce5-4525-9962-2a2abdb62c08)
-
----
-Relative_Compactness = 0.98
-Surface_Area = 514.5
-Wall_Area = 294
-Roof_Area = 110.25
-Overall_Height = 7
-
-**Output:**
-
+![Output](SCNSHOT/4.png)
 
 ---
 
-## 🛠️ Tech Stack
+## 📊 Example Usage
 
-- Python
-- pandas
-- scikit-learn
-- FastAPI
-- Uvicorn
+**Endpoint:**
+POST /predict-heating-load
+
+
+**Input:**
+```json
+{
+  "rc": 0.98,
+  "sa": 514.5,
+  "wa": 294,
+  "ra": 110.25,
+  "oh": 7
+}
+
+Output:
+
+{
+  "predicted_heating_load": 27.73,
+  "energy_category": "High",
+  "recommendation": "Energy efficiency improvement recommended"
+}
+🛠️ Tech Stack
+Python
+pandas
+scikit-learn
+FastAPI
+Uvicorn
+Render (Deployment)
 
 ---
 
