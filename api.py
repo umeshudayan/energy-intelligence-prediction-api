@@ -3,29 +3,21 @@ from pydantic import BaseModel, Field
 import joblib
 from pipeline.train_model import predict_energy
 
-app = FastAPI()
+app = FastAPI(title="Energy Intelligence Prediction API")
 
-# Load trained model (make sure you saved it earlier)
 model = joblib.load("model.pkl")
 
 
-# Input validation model
-class InputData(BaseModel):
-    rc: float = Field(..., gt=0, description="Relative Compactness")
-    sa: float = Field(..., gt=0, description="Surface Area")
-    wa: float = Field(..., gt=0, description="Wall Area")
-    ra: float = Field(..., gt=0, description="Roof Area")
-    oh: float = Field(..., gt=0, description="Overall Height")
-
-
-@app.get("/")
-def home():
-    return {"message": "Energy Prediction API is running"}
+class EnergyInput(BaseModel):
+    rc: float = Field(..., gt=0)
+    sa: float = Field(..., gt=0)
+    wa: float = Field(..., gt=0)
+    ra: float = Field(..., gt=0)
+    oh: float = Field(..., gt=0)
 
 
 @app.post("/predict-heating-load")
-def predict(data: InputData):
-
+def predict_heating_load(data: EnergyInput):
     prediction = predict_energy(
         model,
         data.rc,
@@ -35,16 +27,20 @@ def predict(data: InputData):
         data.oh
     )
 
-    # Business logic layer
-    if prediction > 25:
+    prediction = round(prediction, 2)
+
+    if prediction >= 26:
         risk = "High"
         recommendation = "Energy efficiency improvement recommended"
+    elif prediction >= 18:
+        risk = "Medium"
+        recommendation = "Moderate energy usage, consider optimisation"
     else:
         risk = "Low"
-        recommendation = "Energy performance is acceptable"
+        recommendation = "Energy efficient building"
 
     return {
-        "predicted_heating_load": round(prediction, 2),
-        "risk_level": risk,
+        "predicted_heating_load": prediction,
+        "energy_category": risk,
         "recommendation": recommendation
     }
